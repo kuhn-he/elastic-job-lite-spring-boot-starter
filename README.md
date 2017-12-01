@@ -19,7 +19,7 @@ elaticjob.zookeeper.server-lists=127.0.0.1:2181
 elaticjob.zookeeper.namespace=my-project
 ```
 ### setup 3
-***definition job class***
+***define job class***
 ```java
 import com.bc.elasticjob.lite.annotation.ElasticSimpleJob;
 import com.dangdang.ddframe.job.api.ShardingContext;
