@@ -21,7 +21,7 @@ elaticjob.zookeeper.namespace=my-project
 ### setup 3
 ***define job class***
 ```java
-import com.bc.elasticjob.lite.annotation.ElasticSimpleJob;
+import com.dangdang.elasticjob.lite.annotation.ElasticSimpleJob;
 import com.dangdang.ddframe.job.api.ShardingContext;
 
 //Job configuration annotation
