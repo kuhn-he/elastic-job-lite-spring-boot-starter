@@ -11,14 +11,14 @@ spring boot starter for Elastic-Job(https://github.com/elasticjob/elastic-job)
 </dependency>
 ```
 ### setup 2
-***setting application.properties***
+***setting up application.properties***
 ```
 #elastic-job
 elaticjob.zookeeper.server-lists=127.0.0.1:2181
 elaticjob.zookeeper.namespace=项目名
 ```
 ### setup 3
-***custom job class***
+***definition job class***
 ```java
 import com.bc.elasticjob.lite.annotation.ElasticSimpleJob;
 import com.dangdang.ddframe.job.api.ShardingContext;
@@ -35,4 +35,4 @@ public class MyJob implements com.dangdang.ddframe.job.api.simple.SimpleJob {
 ```
 
 ### setup 4
-***well done***
+***well done ^_^***
