@@ -6,7 +6,7 @@ spring boot starter for Elastic-Job(https://github.com/elasticjob/elastic-job)
 ***import dependency***
 ```java
 <dependency>
-    <groupId>com.bc.elasticjob</groupId>
+    <groupId>com.dangdang.elasticjob</groupId>
     <artifactId>elastic-job-lite-spring-boot-starter</artifactId>
     <version>2.1.5</version>
 </dependency>
