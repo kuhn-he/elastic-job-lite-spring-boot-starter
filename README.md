@@ -1,7 +1,7 @@
 # elastic-job-lite-spring-boot-starter
 spring boot starter for Elastic-Job(https://github.com/elasticjob/elastic-job)
 
-###setup 1
+### setup 1
 ***import dependency***
 ```java
 <dependency>
@@ -10,14 +10,14 @@ spring boot starter for Elastic-Job(https://github.com/elasticjob/elastic-job)
     <version>2.1.5</version>
 </dependency>
 ```
-###setup 2
+### setup 2
 ***setting application.properties***
 ```
 #elastic-job
 elaticjob.zookeeper.server-lists=127.0.0.1:2181
 elaticjob.zookeeper.namespace=项目名
 ```
-###setup 3
+### setup 3
 ***custom job class***
 ```java
 import com.bc.elasticjob.lite.annotation.ElasticSimpleJob;
@@ -34,5 +34,5 @@ public class MyJob implements com.dangdang.ddframe.job.api.simple.SimpleJob {
 }
 ```
 
-###setup 4
+### setup 4
 ***well done***
