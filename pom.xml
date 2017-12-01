@@ -7,6 +7,40 @@
 	<version>2.1.5</version>
 	<packaging>jar</packaging>
 
+	<name>elastic-job-lite-spring-boot-starter</name>
+	<description>spring boot starter for Elastic-Job(https://github.com/elasticjob/elastic-job)</description>
+	<url>https://github.com/kuhn-he/elastic-job-lite-spring-boot-starter</url>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>kuhn_he</name>
+			<email>kuhn_he@163.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>
+            scm:git@github.com:kuhn-he/elastic-job-lite-spring-boot-starter.git
+        </connection>
+		<developerConnection>
+            scm:git@github.com:kuhn-he/elastic-job-lite-spring-boot-starter.git
+        </developerConnection>
+		<url>https://github.com/kuhn-he/elastic-job-lite-spring-boot-starter</url>
+	</scm>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -31,17 +65,52 @@
 			<version>2.1.5</version>
 		</dependency>
 	</dependencies>
-	
-	<distributionManagement>
-		<repository>
-			<id>nexus-release</id>
-			<name> Nexus Release Repository </name>
-			<url>${distribution.releases}</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus-snapshot</id>
-			<name> Nexus Snapshot Repository </name>
-			<url>${distribution.snapshots}</url>
-		</snapshotRepository>
-	</distributionManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<distributionManagement>
+				<snapshotRepository>
+					<id>oss</id>
+					<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+				</snapshotRepository>
+				<repository>
+					<id>oss</id>
+					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+				</repository>
+			</distributionManagement>
+		</profile>
+	</profiles>
 </project>
