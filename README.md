@@ -1,3 +1,4 @@
+
 # elastic-job-lite-spring-boot-starter
 spring boot starter for Elastic-Job(https://github.com/elasticjob/elastic-job)
 
@@ -25,6 +26,7 @@ import com.dangdang.ddframe.job.api.ShardingContext;
 
 //Job configuration annotation
 @ElasticSimpleJob("0 * * * * ?")
+@Component
 public class MyJob implements com.dangdang.ddframe.job.api.simple.SimpleJob {
 
     @Override
@@ -35,4 +37,4 @@ public class MyJob implements com.dangdang.ddframe.job.api.simple.SimpleJob {
 ```
 
 ### setup 4
-***well done ^_^***
+***well done! ^_^***
