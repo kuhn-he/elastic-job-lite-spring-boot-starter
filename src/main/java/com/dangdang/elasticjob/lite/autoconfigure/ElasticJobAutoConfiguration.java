@@ -1,4 +1,4 @@
-package com.bc.elasticjob.lite.autoconfigure;
+package com.dangdang.elasticjob.lite.autoconfigure;
 
 import java.util.Map;
 
@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 
-import com.bc.elasticjob.lite.annotation.ElasticSimpleJob;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
@@ -21,6 +20,7 @@ import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
+import com.dangdang.elasticjob.lite.annotation.ElasticSimpleJob;
 
 @Configuration
 @ConditionalOnExpression("'${elaticjob.zookeeper.server-lists}'.length() > 0")
