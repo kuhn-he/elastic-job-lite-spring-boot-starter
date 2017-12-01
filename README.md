@@ -15,7 +15,7 @@ spring boot starter for Elastic-Job(https://github.com/elasticjob/elastic-job)
 ```
 #elastic-job
 elaticjob.zookeeper.server-lists=127.0.0.1:2181
-elaticjob.zookeeper.namespace=项目名
+elaticjob.zookeeper.namespace=my-project
 ```
 ### setup 3
 ***definition job class***
