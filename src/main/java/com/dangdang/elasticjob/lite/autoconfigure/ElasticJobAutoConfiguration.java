@@ -1,6 +1,7 @@
 package com.dangdang.elasticjob.lite.autoconfigure;
 
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -37,34 +38,50 @@ public class ElasticJobAutoConfiguration {
 	
 	@PostConstruct
 	public void initElasticJob(){
+
 		ZookeeperRegistryCenter regCenter = new ZookeeperRegistryCenter(new ZookeeperConfiguration(serverList, namespace));
 		regCenter.init();
-		Map<String, SimpleJob> map = applicationContext.getBeansOfType(SimpleJob.class);
-		
-		for(Map.Entry<String, SimpleJob> entry : map.entrySet()){
-			SimpleJob simpleJob = entry.getValue();
-			ElasticSimpleJob elasticSimpleJobAnnotation=simpleJob.getClass().getAnnotation(ElasticSimpleJob.class);
-			
-			String cron=StringUtils.defaultIfBlank(elasticSimpleJobAnnotation.cron(), elasticSimpleJobAnnotation.value());
-			String jobName=StringUtils.defaultIfBlank(elasticSimpleJobAnnotation.jobName(), simpleJob.getClass().getName());
-			SimpleJobConfiguration simpleJobConfiguration=new SimpleJobConfiguration(JobCoreConfiguration.newBuilder(jobName, cron, elasticSimpleJobAnnotation.shardingTotalCount()).shardingItemParameters(elasticSimpleJobAnnotation.shardingItemParameters()).jobParameter(elasticSimpleJobAnnotation.jobParameter()).build(), simpleJob.getClass().getCanonicalName());
-			LiteJobConfiguration liteJobConfiguration=LiteJobConfiguration.newBuilder(simpleJobConfiguration).overwrite(true).build();
-			
-			String dataSourceRef=elasticSimpleJobAnnotation.dataSource();
-			if(StringUtils.isNotBlank(dataSourceRef)){
-				
-				if(!applicationContext.containsBean(dataSourceRef)){
-					throw new RuntimeException("not exist datasource ["+dataSourceRef+"] !");
-				}
-				
-				DataSource dataSource=(DataSource)applicationContext.getBean(dataSourceRef);
-				JobEventRdbConfiguration jobEventRdbConfiguration=new JobEventRdbConfiguration(dataSource);
-				SpringJobScheduler jobScheduler=new SpringJobScheduler(simpleJob, regCenter, liteJobConfiguration,jobEventRdbConfiguration);
-				jobScheduler.init();
-			}else{
-				SpringJobScheduler jobScheduler=new SpringJobScheduler(simpleJob, regCenter, liteJobConfiguration);
-				jobScheduler.init();
-			}
-		}
+		Map<String, SimpleJob> simpleJobs = applicationContext.getBeansOfType(SimpleJob.class);
+
+		simpleJobs.entrySet().stream().forEach(entry -> {
+            SimpleJob simpleJob = entry.getValue();
+            ElasticSimpleJob annotation = entry.getValue().getClass().getAnnotation(ElasticSimpleJob.class);
+
+            if(Objects.isNull(annotation)) return;
+
+            String cron = StringUtils.defaultIfBlank(annotation.cron(), annotation.value());
+            String jobName = StringUtils.defaultIfBlank(annotation.jobName(), simpleJob.getClass().getName());
+
+            JobCoreConfiguration.Builder builder = JobCoreConfiguration
+                    .newBuilder(jobName, cron, annotation.shardingTotalCount());
+
+            JobCoreConfiguration configuration = builder
+                    .shardingItemParameters(annotation.shardingItemParameters())
+                    .jobParameter(annotation.jobParameter())
+                    .description(annotation.description())
+                    .build();
+
+            SimpleJobConfiguration simpleJobConfiguration = new SimpleJobConfiguration(
+                    configuration, simpleJob.getClass().getCanonicalName());
+
+            LiteJobConfiguration liteJobConfiguration = LiteJobConfiguration
+                    .newBuilder(simpleJobConfiguration).overwrite(annotation.overwrite()).build();
+
+            String dataSourceRef = annotation.dataSource();
+
+            SpringJobScheduler jobScheduler;
+            if(StringUtils.isNotBlank(dataSourceRef)){
+
+                if(!applicationContext.containsBean(dataSourceRef)){
+                    throw new RuntimeException("not exist datasource ["+dataSourceRef+"] !");
+                }
+                DataSource dataSource = (DataSource)applicationContext.getBean(dataSourceRef);
+                JobEventRdbConfiguration jobEventRdbConfiguration = new JobEventRdbConfiguration(dataSource);
+                jobScheduler = new SpringJobScheduler(simpleJob, regCenter, liteJobConfiguration, jobEventRdbConfiguration);
+            }else{
+                jobScheduler = new SpringJobScheduler(simpleJob, regCenter, liteJobConfiguration);
+            }
+            jobScheduler.init();
+        });
 	}
 }
