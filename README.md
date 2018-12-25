@@ -8,7 +8,7 @@ spring boot starter for Elastic-Job(https://github.com/elasticjob/elastic-job)
 <dependency>
     <groupId>com.github.kuhn-he</groupId>
     <artifactId>elastic-job-lite-spring-boot-starter</artifactId>
-    <version>2.1.51</version>
+    <version>2.1.53</version>
 </dependency>
 ```
 ### setup 2
